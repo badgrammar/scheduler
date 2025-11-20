@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BkDashboardController;
-Use App\Http\Controllers\HdDashboardController;
+use App\Http\Controllers\HdDashboardController;
+use App\Http\Controllers\AuthController;
 
 Route::prefix('backroom')
     ->as('backroom.')
@@ -16,4 +17,12 @@ Route::prefix('helpdesk')
     ->middleware(['auth', 'role:helpdesk'])
     ->group(function () {
         Route::get('dashboard', [HdDashboardController::class, 'index']);
+    });
+
+
+Route::prefix('auth')
+    ->as('auth.')
+    ->group(function () {
+        Route::get('login', [AuthController::class, 'login']);
+        Route::post('login', [AuthController::class, 'authenticate']);
     });
