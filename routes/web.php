@@ -9,20 +9,22 @@ Route::prefix('backroom')
     ->as('backroom.')
     ->middleware(['auth', 'role:backroom'])
     ->group(function () {
-        Route::get('dashboard', [BkDashboardController::class, 'index']);
+        Route::get('dashboard', [BkDashboardController::class, 'index'])->name('dashboard');
     });
 
 Route::prefix('helpdesk')
     ->as('helpdesk.')
     ->middleware(['auth', 'role:helpdesk'])
     ->group(function () {
-        Route::get('dashboard', [HdDashboardController::class, 'index']);
+        Route::get('dashboard', [HdDashboardController::class, 'index'])->name('dashboard');
     });
 
 
 Route::prefix('auth')
     ->as('auth.')
     ->group(function () {
-        Route::get('login', [AuthController::class, 'login']);
-        Route::post('login', [AuthController::class, 'authenticate']);
+        Route::get('login', [AuthController::class, 'login'])->name('login');
+        Route::post('login', [AuthController::class, 'authenticate'])->name('login');
     });
+
+Route::get('/', [AuthController::class, 'login']);

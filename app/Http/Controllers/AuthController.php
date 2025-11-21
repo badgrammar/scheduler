@@ -18,7 +18,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended(
-                auth()->user()->role->value === 'helpdesk'
+                Auth::user()->role->value === 'helpdesk'
                 ? route('helpdesk.dashboard')
                 : route('backroom.dashboard')
             );
@@ -28,5 +28,10 @@ class AuthController extends Controller
     public function login()
     {
         return view('auth.login');
+    }
+
+    public function register()
+    {
+        return view('auth.register');
     }
 }
