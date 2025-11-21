@@ -16,11 +16,11 @@ class UserRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if(!auth()->check()){
+        if(!Auth::check()){
             return redirect()->route('login');
         }
 
-        if(!in_array(auth()->user()->role()->value, $role, true)){
+        if(Auth::user()->role !== $role){
             abort(403);
         }
 

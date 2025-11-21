@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum Roles: string
 {
-    case Helpdesk = 'helpdesk';
-    case Backroom = 'backroom';
+    case HELPDESK = 'helpdesk';
+    case BACKROOM = 'backroom';
 }
