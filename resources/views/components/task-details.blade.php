@@ -1,6 +1,6 @@
 <div class="modal" role="dialog">
-    <div class="modal-box max-w-[800px] min-w-lg space-y-8">
-        <div class="space-y-1">
+    <div class="modal-box p-0 max-h-3/4">
+        <div class="space-y-1 sticky top-0 bg-white p-4">
             <div class="font-semibold space-x-2 text-sm">
                 <span>#{{$task->id}}</span>
                 <span>{{$task->tujuan}}</span>
@@ -49,19 +49,27 @@
                 <span>{{$task->keterangan}}</span>
             </div>
         </div>
-        <div>
+        <div class="overflow-y-auto p-4 gap-4 flex flex-col-reverse">
             @foreach($task->log as $items)
                 <div class="flex flex-col space-y-2">
                     <div class="flex flex-col">
                         <span>{{$items->user->name}}</span>
-                        <span class="text-[11px] text-gray-400">@tanggal($items->created_at)</span>
+                        <span class="text-[11px] text-gray-400">@tanggaljam($items->created_at)</span>
                     </div>
                     <span>{{$items->comment}}</span>
                 </div>
             @endforeach
         </div>
-        <div class="flex justify-end">
-            <label for="taskView" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Close</label>
+        <div class="sticky bottom-0 p-4 bg-white">
+            <form action="{{route('logs.store')}}" method="POST" class="space-y-2 w-full">
+                @csrf
+                <textarea name="comment" placeholder="Comment" class="w-full p-3 border border-gray-200"></textarea>
+                <input type="hidden" name="taskId" value="{{$task->id}}">
+                <div class="flex justify-end space-x-4">
+                    <label for="taskView" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Close</label>
+                    <button class="rounded cursor-pointer bg-slate-800 text-white px-4 py-2 text-xs">Update</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

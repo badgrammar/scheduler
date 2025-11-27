@@ -24,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('tanggal', function ($expression) {
             return "<?php echo \Carbon\Carbon::parse($expression)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'); ?>";
         });
+
+        Blade::directive('tanggaljam', function ($expression){
+            return "<?php echo \Carbon\Carbon::parse($expression)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY [at] HH:mm'); ?>";
+        });
     }
 }
