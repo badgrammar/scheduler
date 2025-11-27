@@ -52,12 +52,17 @@
                             @break
                     @endswitch
                 </td>
-                <td>
-                    <label for="taskView" class="cursor-pointer">
-                        <span class="material-symbols-rounded text-blue-800" style="font-size: 18px;">find_in_page</span>
-                    </label>
-                    <input type="checkbox" id="taskView" class="modal-toggle"/>
-                    <x-task-details :task="$task" />
+                <td class="flex gap-1 items-center">
+                    <div>
+                        <label for="taskView" class="cursor-pointer">
+                            <span class="material-symbols-rounded text-blue-800" style="font-size: 18px;">find_in_page</span>
+                        </label>
+                        <input type="checkbox" id="taskView" class="modal-toggle"/>
+                        <x-task-details :task="$task" />
+                    </div>
+                    <a href="{{route('tasks.delete', ['id' => $task->id])}}">
+                        <span class="material-symbols-rounded text-red-800">delete</span>
+                    </a>
                 </td>
             </tr>
         @endforeach

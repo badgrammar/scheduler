@@ -36,4 +36,23 @@ class TasksController extends Controller
 
         return redirect()->route($path);
     }
+
+    public function delete($id)
+    {
+        Task::find($id)->delete();
+
+        switch(Auth::user()->role){
+            case 'backroom':
+                $path = 'backroom.dashboard';
+                break;
+            case 'helpdesk':
+                $path = 'helpdesk.dashboard';
+                break;
+            default:
+                $path = 'backroom.dashboard';
+                break;
+        }
+
+        return redirect()->route($path);
+    }
 }
