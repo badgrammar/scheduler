@@ -3,6 +3,9 @@
         <div>Login</div>
         <form action="{{route('auth.login')}}" class="space-y-4" method="POST">
             @csrf
+            @error('email')
+                    <div class="text-red-400 text-xs">{{ $message }}</div>
+            @enderror
             <div>
                 <input type="text" name="email" class="border px-4 py-2" placeholder="Email">
             </div>

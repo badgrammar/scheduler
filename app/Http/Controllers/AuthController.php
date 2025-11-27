@@ -15,15 +15,21 @@ class AuthController extends Controller
             'password' => ['required']
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended(
-                Auth::user()->role === 'helpdesk'
-                ? route('helpdesk.dashboard')
-                : route('backroom.dashboard')
-            );
+        if (!Auth::attempt($credentials)) {
+            return back()
+                ->withErrors([
+                    'email' => 'Email atau password salah'
+                ])
+                ->onlyInput('email');
         }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(
+            Auth::user()->role === 'helpdesk'
+            ? route('helpdesk.dashboard')
+            : route('backroom.dashboard')
+        );
     }
 
     public function registerUser(Request $request)
