@@ -9,9 +9,11 @@
 </head>
 <body class="flex h-screen text-sm">
     <x-sidebar/>
-    <main class="overflow-y-auto">
+    <main class="overflow-y-auto w-full">
         <x-topbar :title="$title"/>
-        {{ $slot }}
+        <div class="p-3">
+            {{ $slot }}
+        </div>
     </main>
 </body>
 </html>
