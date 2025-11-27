@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('pekerjaan');
             $table->string('prioritas');
             $table->string('keterangan');
-            $table->string('status');
-            $table->date('tanggal');
-            $table->time('jam');
+            $table->string('status')->default('pending');
+            $table->date('tanggal')->nullable();
+            $table->time('jam')->nullable();
             $table->timestamps();
         });
     }
