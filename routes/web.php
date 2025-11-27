@@ -5,22 +5,26 @@ use App\Http\Controllers\BkDashboardController;
 use App\Http\Controllers\HdDashboardController;
 use App\Http\Controllers\AuthController;
 
-Route::prefix('backroom')
-    ->as('backroom.')
-    ->middleware(['auth', 'role:backroom'])
-    ->group(function () {
-        Route::get('dashboard', [BkDashboardController::class, 'index'])->name('dashboard');
-    });
+Route::group(['middleware' => 'auth'], function (){
+    Route::prefix('backroom')
+        ->as('backroom.')
+        ->middleware('role:backroom')
+        ->group(function () {
+            Route::get('dashboard', [BkDashboardController::class, 'index'])->name('dashboard');
+        });
 
-Route::prefix('helpdesk')
-    ->as('helpdesk.')
-    ->middleware(['auth', 'role:helpdesk'])
-    ->group(function () {
-        Route::get('dashboard', [HdDashboardController::class, 'index'])->name('dashboard');
-    });
+    Route::prefix('helpdesk')
+        ->as('helpdesk.')
+        ->middleware('role:helpdesk')
+        ->group(function () {
+            Route::get('dashboard', [HdDashboardController::class, 'index'])->name('dashboard');
+        });
 
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
-Route::prefix('auth')
+Route::group(['middleware' => 'guest'], function (){
+    Route::prefix('auth')
     ->as('auth.')
     ->group(function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -29,4 +33,5 @@ Route::prefix('auth')
         Route::post('register', [AuthController::class, 'registerUser'])->name('register');
     });
 
-Route::get('/', [AuthController::class, 'login']);
+    Route::get('/', [AuthController::class, 'login']);
+});
