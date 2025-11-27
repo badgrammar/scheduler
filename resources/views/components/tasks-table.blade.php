@@ -52,7 +52,13 @@
                             @break
                     @endswitch
                 </td>
-                <td></td>
+                <td>
+                    <label for="taskView" class="cursor-pointer">
+                        <span class="material-symbols-rounded text-blue-800" style="font-size: 18px;">find_in_page</span>
+                    </label>
+                    <input type="checkbox" id="taskView" class="modal-toggle"/>
+                    <x-task-details :task="$task" />
+                </td>
             </tr>
         @endforeach
     </table>
