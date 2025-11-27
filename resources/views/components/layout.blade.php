@@ -10,7 +10,8 @@
 <body class="flex h-screen">
     <x-sidebar/>
     <main class="overflow-y-auto">
-        {{$slot}}
+        <x-topbar :title="$title"/>
+        {{ $slot }}
     </main>
 </body>
 </html>
