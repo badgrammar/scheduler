@@ -1,4 +1,4 @@
-<div class="p-6 bg-white w-fit h-full border-right border border-gray-200">
+<aside class="p-6 w-fit border-r h-screen sticky top-0 border-gray-200">
     <ul class="space-y-6">
         <li>
             <a href="{{ route('backroom.dashboard') }}">
@@ -16,4 +16,4 @@
             </a>
         </li>
     </ul>
-</div>
+</aside>
