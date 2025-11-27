@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
     @vite('resources/css/app.css')
 </head>
-<body class="flex h-screen">
+<body class="flex h-screen text-sm">
     <x-sidebar/>
     <main class="overflow-y-auto">
         <x-topbar :title="$title"/>
