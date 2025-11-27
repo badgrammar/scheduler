@@ -5,13 +5,16 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
 
-class authentication extends Component
+class Topbar extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public string $title
+    )
     {
         //
     }
@@ -21,6 +24,10 @@ class authentication extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.authentication');
+        $user = Auth::user();
+
+        return view('components.topbar', [
+            'user' => $user
+        ]);
     }
 }
