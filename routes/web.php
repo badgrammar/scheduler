@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BkDashboardController;
 use App\Http\Controllers\HdDashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TasksController;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -18,6 +19,12 @@ Route::group(['middleware' => 'auth'], function (){
         ->middleware('role:helpdesk')
         ->group(function () {
             Route::get('dashboard', [HdDashboardController::class, 'index'])->name('dashboard');
+        });
+
+    Route::prefix('tasks')
+        ->as('tasks.')
+        ->group(function () {
+            Route::post('store', [TasksController::class, 'store'])->name('store');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

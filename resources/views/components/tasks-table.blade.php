@@ -2,7 +2,9 @@
     <div class="border border-gray-200 p-3 flex justify-between items-center">
         <div class="font-semibold">Tasks list</div>
         <div>
-            <button class="cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">+ Create</button>
+            <label for="taskCreate" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">+ Create</label>
+            <input type="checkbox" id="taskCreate" class="modal-toggle"/>
+            <x-tasks-create/>
         </div>
     </div>
     <table class="table table-sm table-pin-rows table-pin-cols border border-gray-200 rounded-none">

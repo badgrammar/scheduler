@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Logs extends Model
+class Log extends Model
 {
     protected $table = 'logs';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'task_id',
+        'user_id',
+        'comment'
+    ];
 
     public function user()
     {
@@ -17,6 +21,6 @@ class Logs extends Model
 
     public function task()
     {
-        return $this->belongsTo(Tasks::class);
+        return $this->belongsTo(Task::class);
     }
 }
