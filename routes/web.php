@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function (){
         ->group(function () {
             Route::post('store', [TasksController::class, 'store'])->name('store');
             Route::get('delete/{id}', [TasksController::class, 'delete'])->name('delete');
+            Route::post('update', [TasksController::class, 'update'])->name('update');
         });
 
     Route::prefix('logs')

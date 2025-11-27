@@ -55,4 +55,30 @@ class TasksController extends Controller
 
         return redirect()->route($path);
     }
+
+    public function update(Request $request)
+    {
+        $task = $request->validate([
+            'tujuan' => ['required'],
+            'pekerjaan' => ['required'],
+            'keterangan' => ['required'],
+            'prioritas' => ['required']
+        ]);
+
+        Task::find($request->id)->update($task);
+
+        switch(Auth::user()->role){
+            case 'backroom':
+                $path = 'backroom.dashboard';
+                break;
+            case 'helpdesk':
+                $path = 'helpdesk.dashboard';
+                break;
+            default:
+                $path = 'backroom.dashboard';
+                break;
+        }
+
+        return redirect()->route($path);
+    }
 }

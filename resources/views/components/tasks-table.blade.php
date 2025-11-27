@@ -52,7 +52,14 @@
                             @break
                     @endswitch
                 </td>
-                <td class="flex gap-1 items-center">
+                <td class="flex gap-1 items-center w-fit">
+                    <div>
+                        <label for="taskEdit" class="cursor-pointer">
+                            <span class="material-symbols-rounded text-slate-800" style="font-size: 18px;">edit_square</span>
+                        </label>
+                        <input type="checkbox" id="taskEdit" class="modal-toggle"/>
+                        <x-task-edit :task="$task" />
+                    </div>
                     <div>
                         <label for="taskView" class="cursor-pointer">
                             <span class="material-symbols-rounded text-blue-800" style="font-size: 18px;">find_in_page</span>
