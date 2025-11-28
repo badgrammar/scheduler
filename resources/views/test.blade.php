@@ -1,3 +1,3 @@
 <x-layout title="Test">
-    <x-tasks-table/>
+    <x-teknisi-table/>
 </x-layout>
