@@ -9,8 +9,8 @@
             <input type="hidden" name="id" value="{{$task->id}}">
             <select name="prioritas" class="px-4 py-2 w-full border border-gray-200">
                 <option>Prioritas</option>
-                <option value="normal">Normal</option>
-                <option value="high">High</option>
+                <option value="normal" {{$task->prioritas === 'normal' ? 'selected' : ''}} >Normal</option>
+                <option value="high" {{$task->prioritas === 'high' ? 'selected' : ''}}>High</option>
             </select>
             <div class="space-x-3 flex justify-end">
                 <label for="taskEdit_{{$task->id}}" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Batal</label>
