@@ -10,13 +10,13 @@
                 <input type="text" name="name" class="border px-4 py-2" placeholder="Name">
             </div>
             <div>
-                @error('name')
+                @error('email')
                     <div class="text-red-400 text-xs">{{ $message }}</div>
                 @enderror
                 <input type="text" name="email" class="border px-4 py-2" placeholder="Email">
             </div>
             <div>
-                @error('name')
+                @error('role')
                     <div class="text-red-400 text-xs">{{ $message }}</div>
                 @enderror
                 <select name="role" class="px-4 py-2 border w-full">

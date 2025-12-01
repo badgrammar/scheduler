@@ -6,6 +6,7 @@ use App\Http\Controllers\HdDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\TeknisisController;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -34,6 +35,14 @@ Route::group(['middleware' => 'auth'], function (){
         ->as('logs.')
         ->group(function () {
             Route::post('store', [LogsController::class, 'store'])->name('store');
+        });
+
+    Route::prefix('teknisi')
+        ->as('teknisi.')
+        ->group(function () {
+            Route::post('store', [TeknisisController::class, 'store'])->name('store');
+            Route::get('delete/{id}', [TeknisisController::class, 'delete'])->name('delete');
+            Route::get('update', [TeknisisController::class, 'update'])->name('update');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
