@@ -54,17 +54,17 @@
                 </td>
                 <td class="flex gap-1 items-center w-fit">
                     <div>
-                        <label for="taskEdit" class="cursor-pointer">
+                        <label for="taskEdit_{{$task->id}}" class="cursor-pointer">
                             <span class="material-symbols-rounded text-slate-800" style="font-size: 18px;">edit_square</span>
                         </label>
-                        <input type="checkbox" id="taskEdit" class="modal-toggle"/>
+                        <input type="checkbox" id="taskEdit_{{$task->id}}" class="modal-toggle"/>
                         <x-task-edit :task="$task" />
                     </div>
                     <div>
-                        <label for="taskView" class="cursor-pointer">
+                        <label for="taskView_{{$task->id}}" class="cursor-pointer">
                             <span class="material-symbols-rounded text-blue-800" style="font-size: 18px;">find_in_page</span>
                         </label>
-                        <input type="checkbox" id="taskView" class="modal-toggle"/>
+                        <input type="checkbox" id="taskView_{{$task->id}}" class="modal-toggle"/>
                         <x-task-details :task="$task" />
                     </div>
                     <a href="{{route('tasks.delete', ['id' => $task->id])}}">

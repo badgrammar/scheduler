@@ -13,7 +13,7 @@
                 <option value="high">High</option>
             </select>
             <div class="space-x-3 flex justify-end">
-                <label for="taskEdit" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Batal</label>
+                <label for="taskEdit_{{$task->id}}" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Batal</label>
                 <button class="rounded cursor-pointer bg-gray-800 text-gray-200 px-4 py-2 text-xs">Create</button>
             </div>
         </form>

@@ -66,7 +66,7 @@
                 <textarea name="comment" placeholder="Comment" class="w-full p-3 border border-gray-200"></textarea>
                 <input type="hidden" name="taskId" value="{{$task->id}}">
                 <div class="flex justify-end space-x-4">
-                    <label for="taskView" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Close</label>
+                    <label for="taskView_{{$task->id}}" class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs">Close</label>
                     <button class="rounded cursor-pointer bg-slate-800 text-white px-4 py-2 text-xs">Update</button>
                 </div>
             </form>
