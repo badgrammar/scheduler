@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Dashboard backroom
-</body>
-</html>
+<x-layout title="Dashboard">
+    <div class="mb-3 flex items-center space-x-3">
+        <span class="material-symbols-rounded" style="font-size: 14px;">calendar_today</span>
+        <span>@tanggal(\Carbon\Carbon::now())</span>
+    </div>
+    <x-tasks-table/>
+</x-layout>
