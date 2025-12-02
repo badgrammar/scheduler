@@ -22,38 +22,14 @@ class TasksController extends Controller
 
         Task::create($task);
 
-        switch(Auth::user()->role){
-            case 'backroom':
-                $path = 'backroom.dashboard';
-                break;
-            case 'helpdesk':
-                $path = 'helpdesk.dashboard';
-                break;
-            default:
-                $path = 'backroom.dashboard';
-                break;
-        }
-
-        return redirect()->route($path);
+        return redirect()->back();
     }
 
     public function delete($id)
     {
         Task::find($id)->delete();
 
-        switch(Auth::user()->role){
-            case 'backroom':
-                $path = 'backroom.dashboard';
-                break;
-            case 'helpdesk':
-                $path = 'helpdesk.dashboard';
-                break;
-            default:
-                $path = 'backroom.dashboard';
-                break;
-        }
-
-        return redirect()->route($path);
+        return redirect()->back();
     }
 
     public function update(Request $request)
@@ -67,18 +43,6 @@ class TasksController extends Controller
 
         Task::find($request->id)->update($task);
 
-        switch(Auth::user()->role){
-            case 'backroom':
-                $path = 'backroom.dashboard';
-                break;
-            case 'helpdesk':
-                $path = 'helpdesk.dashboard';
-                break;
-            default:
-                $path = 'backroom.dashboard';
-                break;
-        }
-
-        return redirect()->route($path);
+        return redirect()->back();
     }
 }
