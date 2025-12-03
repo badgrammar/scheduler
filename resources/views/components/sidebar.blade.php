@@ -6,7 +6,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{route('schedule.view')}}">
                 <span class="material-symbols-rounded">calendar_month</span>
             </a>
         </li>

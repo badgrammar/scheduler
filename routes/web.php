@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\TeknisisController;
+use App\Http\Controllers\ScheduleController;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -44,6 +45,12 @@ Route::group(['middleware' => 'auth'], function (){
             Route::post('store', [TeknisisController::class, 'store'])->name('store');
             Route::get('delete/{id}', [TeknisisController::class, 'delete'])->name('delete');
             Route::get('update', [TeknisisController::class, 'update'])->name('update');
+        });
+
+    Route::prefix('schedule')
+        ->as('schedule.')
+        ->group(function () {
+            Route::get('view', [ScheduleController::class, 'index'])->name('view');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
