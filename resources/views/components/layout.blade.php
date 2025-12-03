@@ -11,9 +11,7 @@
     <x-sidebar/>
     <main class="overflow-y-auto w-full">
         <x-topbar :title="$title"/>
-        <div class="p-3">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
     </main>
 </body>
 </html>
