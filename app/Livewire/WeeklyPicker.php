@@ -45,6 +45,8 @@ class WeeklyPicker extends Component
     public function selectDate(string $date)
     {
         $this->selectedDate = $date;
+
+        $this->dispatch('date-selected', date: $this->selectedDate);
     }
 
     public function render()
