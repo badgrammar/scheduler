@@ -9,6 +9,17 @@ use App\Models\Log;
 
 class TasksController extends Controller
 {
+    public function plan(Request $request)
+    {
+        $task = $request->validate([
+            'date' => 'required'
+        ]);
+
+        Task::find($request->id)->update($task);
+
+        return redirect()->back();
+    }
+
     public function store(Request $request)
     {
         $task = $request->validate([
