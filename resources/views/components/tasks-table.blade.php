@@ -39,13 +39,13 @@
                             <span class="px-4 bg-yellow-200 text-yellow-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('planned')
-                            <span class="px-4 bg-lime-200 text-lime-800 rounded-xl">{{ $task->status }}</span>
+                            <span class="px-4 bg-sky-200 text-sky-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('assigned')
-                            <span class="px-4 bg-teal-200 text-teal-800 rounded-xl">{{ $task->status }}</span>
+                            <span class="px-4 bg-blue-200 text-blue-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('confirmed')
-                            <span class="px-4 bg-blue-200 text-blue-800 rounded-xl">{{ $task->status }}</span>
+                            <span class="px-4 bg-green-200 text-green-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('closed')
                             <span class="px-4 bg-gray-200 text-gray-800 rounded-xl">{{ $task->status }}</span>

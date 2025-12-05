@@ -1,7 +1,7 @@
 <div class="modal" role="dialog">
     <div class="modal-box p-4 space-y-3">
         <h3 class="font-semibold">Edit task</h3>
-        <form action="{{route('tasks.update')}}" method="POST" class="space-y-3">
+        <form action="{{route('tasks.plan')}}" method="POST" class="space-y-3">
             @csrf
             <input type="date" name="date" value="{{$task->tanggal}}">
             <input type="hidden" name="id" value="{{$task->id}}">

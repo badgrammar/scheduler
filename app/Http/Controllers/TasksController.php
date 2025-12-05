@@ -6,16 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 use App\Models\Log;
+use Carbon\Carbon;
 
 class TasksController extends Controller
 {
     public function plan(Request $request)
     {
-        $task = $request->validate([
+        $date = $request->validate([
             'date' => 'required'
         ]);
 
-        Task::find($request->id)->update($task);
+        Task::find($request->id)->update([
+            'tanggal' => $date['date']
+        ]);
 
         return redirect()->back();
     }
