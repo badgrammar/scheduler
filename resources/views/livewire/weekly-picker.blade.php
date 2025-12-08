@@ -1,4 +1,4 @@
-<div class="p-3 flex justify-between border-b border-gray-200">
+<div class="p-3 flex space-x-6 border-b border-gray-200">
     <div class="flex space-x-3 items-center">
         <button wire:click="prevWeek">
             <span class="material-symbols-rounded">arrow_left</span>
