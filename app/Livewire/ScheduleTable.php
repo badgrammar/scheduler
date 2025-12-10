@@ -22,7 +22,7 @@ class ScheduleTable extends Component
 
     public function updateTable(string $date)
     {
-        $this->selectedDate = $date;
+        $this->selectedDate = Carbon::parse($date);
     }
 
     public function createTeam()
