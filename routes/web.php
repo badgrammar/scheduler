@@ -8,6 +8,7 @@ use App\Http\Controllers\TasksController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\TeknisisController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\TeamController;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -51,6 +52,12 @@ Route::group(['middleware' => 'auth'], function (){
         ->as('schedule.')
         ->group(function () {
             Route::get('view', [ScheduleController::class, 'index'])->name('view');
+        });
+
+    Route::prefix('team')
+        ->as('team.')
+        ->group(function () {
+            Route::post('member/store', [TeamController::class, 'store'])->name('member.store');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

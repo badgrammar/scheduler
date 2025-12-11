@@ -19,22 +19,54 @@ class ScheduleTable extends Component
     public function mount()
     {
         $this->selectedDate = Carbon::now();
-        $this->selectedTeam = Team::whereDate('created_at', $this->selectedDate)->oldest()->first()->id;
+        $teamData = Team::whereDate('created_at', $this->selectedDate)->oldest()->first();
+
+        $this->selectedTeam = $teamData ? $teamData->id : null;
     }
 
     public function updateTable(string $date)
     {
         $this->selectedDate = Carbon::parse($date);
+        $teamData = Team::whereDate('created_at', $this->selectedDate)->oldest()->first();
+
+        $this->selectedTeam = $teamData ? $teamData->id : null;
     }
 
     public function createTeam()
     {
-        Team::create();
+        $date = Carbon::parse($this->selectedDate);
+
+        Team::create([
+            'created_at' => $date
+        ]);
+
+        $this->selectedTeam = Team::whereDate('created_at', $this->selectedDate)->latest()->first()->id;
     }
 
     public function selectTeam(int $id)
     {
         $this->selectedTeam = $id;
+    }
+
+    public function deleteTeam(int $id)
+    {
+        Team::find($id)->delete();
+
+        $team = Team::whereDate('created_at', $this->selectedDate)->latest()->first();
+
+        if(!$team){
+            $this->selectedDate = Carbon::now();
+            $this->selectedTeam = Team::whereDate('created_at', $this->selectedDate)->oldest()->first()->id;
+        }else{
+            $this->selectedTeam = $team->id;
+        };
+
+        
+    }
+
+    public function deleteMember(int $id)
+    {
+        
     }
 
     public function render()

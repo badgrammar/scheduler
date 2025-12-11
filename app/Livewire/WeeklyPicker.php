@@ -46,7 +46,7 @@ class WeeklyPicker extends Component
     {
         $this->selectedDate = $date;
 
-        $this->dispatch('date-selected', date: $this->selectedDate);
+        $this->dispatch('date-selected', date: $this->selectedDate)->to(ScheduleTable::class);
     }
 
     public function render()
