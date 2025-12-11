@@ -10,6 +10,7 @@ use Carbon\Carbon;
 class ScheduleTable extends Component
 {
     public $selectedDate;
+    public $selectedTeam;
 
     protected $listeners = [
         'date-selected' => 'updateTable'
@@ -18,6 +19,7 @@ class ScheduleTable extends Component
     public function mount()
     {
         $this->selectedDate = Carbon::now();
+        $this->selectedTeam = Team::whereDate('created_at', $this->selectedDate)->oldest()->first()->id;
     }
 
     public function updateTable(string $date)
@@ -30,12 +32,23 @@ class ScheduleTable extends Component
         Team::create();
     }
 
+    public function selectTeam(int $id)
+    {
+        $this->selectedTeam = $id;
+    }
+
     public function render()
     {
-        $teams = Team::whereDate('created_at', $this->selectedDate)->get();
+        $teams = Team::with('members')
+            ->whereDate('created_at', $this->selectedDate);
+
+        $listTeam = $teams->get();
+
+        $selected = $teams->find($this->selectedTeam);
 
         return view('livewire.schedule-table', [
-            'teams' => $teams
+            'listTeam' => $listTeam,
+            'selected' => $selected
         ]);
     }
 }
