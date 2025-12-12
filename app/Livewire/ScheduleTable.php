@@ -54,14 +54,7 @@ class ScheduleTable extends Component
 
         $team = Team::whereDate('created_at', $this->selectedDate)->latest()->first();
 
-        if(!$team){
-            $this->selectedDate = Carbon::now();
-            $this->selectedTeam = Team::whereDate('created_at', $this->selectedDate)->oldest()->first()->id;
-        }else{
-            $this->selectedTeam = $team->id;
-        };
-
-        
+        $this->selectedTeam = $team ? $team->id : null;
     }
 
     public function deleteMember(int $id)
@@ -78,9 +71,14 @@ class ScheduleTable extends Component
 
         $selected = $teams->find($this->selectedTeam);
 
+        $unassignedTasks = Task::whereDate('tanggal', $this->selectedDate->format('Y-m-d'))
+            ->whereNull('team_id')
+            ->get();
+
         return view('livewire.schedule-table', [
             'listTeam' => $listTeam,
-            'selected' => $selected
+            'selected' => $selected,
+            'unassignedTasks' => $unassignedTasks
         ]);
     }
 }
