@@ -13,6 +13,7 @@ class Task extends Model
 
     protected $fillable = [
         'user_id',
+        'team_id',
         'tujuan',
         'pekerjaan',
         'keterangan',
@@ -52,7 +53,7 @@ class Task extends Model
                             'comment' => 'Task '.$task->tujuan.' plan updated to '.$date
                         ]);
 
-                        $task->updateQuietly(['status' => 'planned']);
+                        $task->updateQuietly(['status' => 'unassigned']);
 
                         break;
                     case 'jam':
@@ -61,6 +62,8 @@ class Task extends Model
                             'user_id' => Auth::id(),
                             'comment' => 'Task '.$task->tujuan.' estimasi jam updated to '.$changes
                         ]);
+
+                        $task->updateQuietly(['status' => 'assigned']);
                         break;
                 }
             }

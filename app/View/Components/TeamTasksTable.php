@@ -5,15 +5,16 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\Task;
+use App\Models\Team;
 use Carbon\Carbon;
 
-class UnassignedTasksTable extends Component
+class TeamTasksTable extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
+        public Team $team,
         public $tasks,
         public Carbon $date
     )
@@ -26,6 +27,6 @@ class UnassignedTasksTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.unassigned-tasks-table');
+        return view('components.team-tasks-table');
     }
 }

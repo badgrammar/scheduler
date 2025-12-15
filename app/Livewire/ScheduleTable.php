@@ -71,14 +71,14 @@ class ScheduleTable extends Component
 
         $selected = $teams->find($this->selectedTeam);
 
-        $unassignedTasks = Task::whereDate('tanggal', $this->selectedDate->format('Y-m-d'))
-            ->whereNull('team_id')
+        $teamTasks = Task::whereDate('tanggal', $this->selectedDate->format('Y-m-d'))
+            ->where('team_id', $this->selectedTeam)
             ->get();
 
         return view('livewire.schedule-table', [
             'listTeam' => $listTeam,
             'selected' => $selected,
-            'unassignedTasks' => $unassignedTasks
+            'teamTasks' => $teamTasks
         ]);
     }
 }

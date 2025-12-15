@@ -39,7 +39,7 @@
                             <span class="px-4 bg-yellow-200 text-yellow-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('unassigned')
-                            <span class="px-4 bg-grey-200 text-grey-800 rounded-xl">{{ $task->status }}</span>
+                            <span class="px-4 bg-gray-200 text-gray-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('assigned')
                             <span class="px-4 bg-blue-200 text-blue-800 rounded-xl">{{ $task->status }}</span>
