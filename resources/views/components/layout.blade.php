@@ -7,13 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
     @vite('resources/css/app.css')
 </head>
-<body class="flex h-screen text-sm">
-    <x-sidebar/>
-    <main class="overflow-y-auto w-full">
-        <x-topbar :title="$title"/>
-        <div class="p-3">
-            {{ $slot }}
+<body class="h-full text-sm">
+    <div class="flex h-screen">
+        <x-sidebar/>
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <x-topbar :title="$title"/>
+            <div class="overflow-y-auto h-full">
+                {{ $slot }}
+            </div>
         </div>
-    </main>
+    </div>
 </body>
 </html>

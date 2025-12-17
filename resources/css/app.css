@@ -17,4 +17,9 @@
 
 .material-symbols-rounded {
     font-size: 20px;
+    vertical-align: middle;
+}
+
+button {
+    cursor: pointer;
 }
