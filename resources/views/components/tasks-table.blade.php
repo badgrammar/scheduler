@@ -1,4 +1,4 @@
-<div class="space-y-3">
+<div class="space-y-3 p-3">
     <div class="border border-gray-200 p-3 flex justify-between items-center">
         <div class="font-semibold">Tasks list</div>
         <div>
@@ -91,4 +91,3 @@
             </tr>
         @endforeach
     </table>
-</div>
