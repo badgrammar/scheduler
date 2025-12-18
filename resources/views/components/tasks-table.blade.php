@@ -1,4 +1,4 @@
-<div class="space-y-3">
+<div class="space-y-3 p-3">
     <div class="border border-gray-200 p-3 flex justify-between items-center">
         <div class="font-semibold">Tasks list</div>
         <div>
@@ -38,8 +38,8 @@
                         @case('pending')
                             <span class="px-4 bg-yellow-200 text-yellow-800 rounded-xl">{{ $task->status }}</span>
                             @break
-                        @case('planned')
-                            <span class="px-4 bg-sky-200 text-sky-800 rounded-xl">{{ $task->status }}</span>
+                        @case('unassigned')
+                            <span class="px-4 bg-gray-200 text-gray-800 rounded-xl">{{ $task->status }}</span>
                             @break
                         @case('assigned')
                             <span class="px-4 bg-blue-200 text-blue-800 rounded-xl">{{ $task->status }}</span>
@@ -91,4 +91,3 @@
             </tr>
         @endforeach
     </table>
-</div>

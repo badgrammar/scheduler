@@ -12,6 +12,6 @@ class Team extends Model
 
     public function members()
     {
-        return $this->belongsToMany(Teknisi::class, 'team_member');
+        return $this->belongsToMany(Teknisi::class, 'team_member', 'team_id', 'teknisi_id');
     }
 }

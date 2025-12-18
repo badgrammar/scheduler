@@ -59,4 +59,14 @@ class TasksController extends Controller
 
         return redirect()->back();
     }
+
+    public function assign(Request $request)
+    {
+        Task::find($request->task_id)->update([
+            'team_id' => $request->team_id,
+            'jam' => $request->jam
+        ]);
+
+        return redirect()->back();
+    }
 }
