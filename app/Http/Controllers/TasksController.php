@@ -28,7 +28,6 @@ class TasksController extends Controller
         $task = $request->validate([
             'tujuan' => ['required'],
             'pekerjaan' => ['required'],
-            'keterangan' => ['required'],
             'prioritas' => ['required']
         ]);
 
