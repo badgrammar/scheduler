@@ -26,9 +26,10 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         $task = $request->validate([
-            'tujuan' => ['required'],
-            'pekerjaan' => ['required'],
-            'prioritas' => ['required']
+            'tujuan' => 'required',
+            'pekerjaan' => 'required',
+            'prioritas' => 'required',
+            'keterangan' => 'nullable'
         ]);
 
         $task['user_id'] = Auth::id();
@@ -63,6 +64,7 @@ class TasksController extends Controller
     {
         Task::find($request->task_id)->update([
             'team_id' => $request->team_id,
+            'tanggal' => $request->tanggal,
             'jam' => $request->jam
         ]);
 

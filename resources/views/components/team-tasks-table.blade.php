@@ -24,7 +24,7 @@
                 <td>Tujuan</td>
                 <td>Pekerjaan</td>
                 <td>Jam</td>
-                <td class="w-36"></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" class="w-full text-center" colspan>
@@ -41,7 +41,7 @@
                 <td>Tujuan</td>
                 <td>Pekerjaan</td>
                 <td>Jam</td>
-                <td class="w-36"></td>
+                <td class="w-48"></td>
             </tr>
             @foreach ($tasks as $task)
             <tr>
@@ -73,6 +73,18 @@
                         class="cursor-pointer px-3 py-1 bg-gray-200 text-gray-800 rounded"
                     >
                         View
+                    </label>
+                    <input
+                        type="checkbox"
+                        id="taskView_{{$task->id}}"
+                        class="modal-toggle"
+                    />
+                    <x-task-details :task="$task" />
+                    <label
+                        for="taskView_{{$task->id}}"
+                        class="cursor-pointer px-3 py-1 bg-gray-200 text-gray-800 rounded"
+                    >
+                        Reschedule
                     </label>
                     <input
                         type="checkbox"

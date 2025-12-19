@@ -26,6 +26,7 @@
                 />
             </div>
             <input type="hidden" name="team_id" value="{{$team->id}}" />
+            <input type="hidden" name="tanggal" value="{{ $date }}" />
             <div class="w-full flex justify-end gap-3">
                 <label
                     for="assign_task_{{$team->id}}"
