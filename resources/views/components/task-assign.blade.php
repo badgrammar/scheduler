@@ -21,11 +21,12 @@
                 <div>Jam visit :</div>
                 <input
                     class="rounded border border-gray-200 px-3 py-1"
-                    type="time"
+                    type="text"
                     name="jam"
                 />
             </div>
             <input type="hidden" name="team_id" value="{{$team->id}}" />
+            <input type="hidden" name="tanggal" value="{{ $date }}" />
             <div class="w-full flex justify-end gap-3">
                 <label
                     for="assign_task_{{$team->id}}"

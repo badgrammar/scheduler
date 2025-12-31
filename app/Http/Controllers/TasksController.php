@@ -10,26 +10,13 @@ use Carbon\Carbon;
 
 class TasksController extends Controller
 {
-    public function plan(Request $request)
-    {
-        $date = $request->validate([
-            'date' => 'required'
-        ]);
-
-        Task::find($request->id)->update([
-            'tanggal' => $date['date']
-        ]);
-
-        return redirect()->back();
-    }
-
     public function store(Request $request)
     {
         $task = $request->validate([
-            'tujuan' => ['required'],
-            'pekerjaan' => ['required'],
-            'keterangan' => ['required'],
-            'prioritas' => ['required']
+            'tujuan' => 'required',
+            'pekerjaan' => 'required',
+            'prioritas' => 'required',
+            'keterangan' => 'nullable'
         ]);
 
         $task['user_id'] = Auth::id();
@@ -62,9 +49,48 @@ class TasksController extends Controller
 
     public function assign(Request $request)
     {
-        Task::find($request->task_id)->update([
+        $data = $request->validate([
+            'task_id' => 'required',
+            'jam' => 'required'
+        ]);
+
+        $sanitized = str_replace('.', ':', $data['jam']);
+
+        $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
+
+        Task::find($data['task_id'])->update([
+            'task_id' => $data['task_id'],
             'team_id' => $request->team_id,
-            'jam' => $request->jam
+            'tanggal' => $request->tanggal,
+            'jam' => $request->jam,
+            'status' => 'assigned'
+        ]);
+
+        Log::create([
+            'task_id' => $data['task_id'],
+            'user_id' => Auth::id(),
+            'comment' => 'Dijadwalkan pada '.Carbon::parse($request['date'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function reschedule(Request $request)
+    {
+        $validation = $request->validate([
+            'tanggal' => 'required',
+            'keterangan' => 'required'
+        ]);
+
+        Task::find($request->id)
+            ->update([
+                'tanggal' => $validation['tanggal']
+            ]);
+
+        Log::create([
+            'task_id' => $request->id,
+            'user_id' => Auth::id(),
+            'comment' => 'Rescheduled to '.Carbon::parse($validation['tanggal'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY').' dikarenakan '.$validation['keterangan']
         ]);
 
         return redirect()->back();

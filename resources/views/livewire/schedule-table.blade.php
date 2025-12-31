@@ -52,7 +52,7 @@
                             style="font-size: 14px"
                             >delete</span
                         >
-                        <span>{{ $member->name }} {{ $member->id }}</span>
+                        <span>{{ $member->name }}</span>
                     </li>
                     @endforeach
                     <li>

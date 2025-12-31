@@ -81,17 +81,17 @@
                     />
                     <x-task-details :task="$task" />
                     <label
-                        for="taskReschedule_{{$task->id}}"
+                        for="taskView_{{$task->id}}"
                         class="cursor-pointer px-3 py-1 bg-gray-200 text-gray-800 rounded"
                     >
                         Reschedule
                     </label>
                     <input
                         type="checkbox"
-                        id="taskReschedule_{{$task->id}}"
+                        id="taskView_{{$task->id}}"
                         class="modal-toggle"
                     />
-                    <x-task-reschedule :task="$task" />
+                    <x-task-details :task="$task" />
                 </td>
             </tr>
             @endforeach

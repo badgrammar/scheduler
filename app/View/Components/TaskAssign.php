@@ -27,8 +27,7 @@ class TaskAssign extends Component
      */
     public function render(): View|Closure|string
     {
-        $tasks = Task::whereDate('tanggal', $this->date)
-            ->whereNull('team_id')
+        $tasks = Task::whereNull('team_id')
             ->get();
 
         return view('components.task-assign', [
