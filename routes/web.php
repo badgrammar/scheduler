@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function (){
             Route::post('store', [TasksController::class, 'store'])->name('store');
             Route::get('delete/{id}', [TasksController::class, 'delete'])->name('delete');
             Route::post('update', [TasksController::class, 'update'])->name('update');
-            Route::post('plan', [TasksController::class, 'plan'])->name('plan');
             Route::post('assign', [TasksController::class, 'assign'])->name('assign');
+            Route::post('reschedule', [TasksController::class, 'reschedule'])->name('reschedule');
         });
 
     Route::prefix('logs')

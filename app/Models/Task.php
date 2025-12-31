@@ -31,24 +31,6 @@ class Task extends Model
                 'comment' => 'Dibuat oleh '.Auth::user()->name,
             ]);
         });
-
-        static::updated(function ($task) {
-            $watch = ['tanggal', 'jam'];
-
-            $changed = $task->getChanges();
-
-            if (empty(array_intersect(array_keys($changed), $watch))) {
-                return;
-            }
-
-            Log::create([
-                'task_id' => $task->id,
-                'user_id' => Auth::id(),
-                'comment' => 'Dijadwalkan pada '.Carbon::parse($changed['tanggal'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$changed['jam']
-            ]);
-
-            $task->updateQuietly(['status' => 'assigned']);
-        });
     }
 
     public function user()
