@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 
 class WeeklyPicker extends Component
 {
@@ -17,7 +16,7 @@ class WeeklyPicker extends Component
         $this->date = Carbon::now();
 
         $this->selectedDate = $this->date->format('d-m-Y');
-        
+
         $this->week($this->date);
     }
 
@@ -46,7 +45,7 @@ class WeeklyPicker extends Component
     {
         $this->selectedDate = $date;
 
-        $this->dispatch('date-selected', date: $this->selectedDate)->to(ScheduleTable::class);
+        $this->dispatch('date-selected', date: $this->selectedDate)->to(KanbanBoard::class);
     }
 
     public function render()
