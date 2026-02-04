@@ -21,4 +21,12 @@ class TeamController extends Controller
 
         return redirect()->back();
     }
+
+    public function delete(Request $request)
+    {
+
+        return TeamMember::find($request->id);
+
+        return redirect()->route('backroom.dashboard');
+    }
 }

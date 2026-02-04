@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function (){
         ->as('team.')
         ->group(function () {
             Route::post('member/store', [TeamController::class, 'store'])->name('member.store');
+            Route::delete('member/delete', [TeamController::class, 'delete'])->name('member.delete');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

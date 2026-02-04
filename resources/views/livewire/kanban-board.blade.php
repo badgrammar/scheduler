@@ -1,55 +1,52 @@
-<div class="flex h-full flex-1 gap-3 overflow-hidden bg-gray-100">
-    <div class="flex w-80 flex-col gap-3 p-3">
-        <div class="rounded bg-white p-3 font-semibold">
+<div class="flex h-full flex-1 gap-3 overflow-hidden p-3">
+    <div class="flex w-80 flex-col gap-3 rounded bg-gray-50 p-3">
+        <div class="font-semibold">
             Pending Tasks
         </div>
         <div class="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto rounded">
-            @if ($today->isNotEmpty())
-                <div class="flex flex-col gap-3">
-                    <div>
-                        <span class="text-xs">Rescheduled today</span>
-                    </div>
-                    @foreach ($today as $item)
-                        <div class="flex w-full flex-col gap-3 rounded bg-white p-3">
-                            <div>
-                                <div>
-                                    {{ $item->tujuan }}
-                                </div>
-                                <span class="text-xs">{{ $item->pekerjaan }}</span>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                @if ($item->prioritas === 'normal')
-                                    <span
-                                        class="w-fit rounded-xl bg-gray-200 px-4 text-xs text-gray-800">{{ $item->prioritas }}</span>
-                                @elseif($item->prioritas === 'high')
-                                    <span
-                                        class="w-fit rounded-xl bg-red-200 px-4 text-xs text-red-800">{{ $item->prioritas }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
             <div class="flex w-full flex-col gap-3">
-                <div>
-                    <span class="text-xs">Not scheduled</span>
-                </div>
                 @foreach ($pending as $item)
-                    <div class="flex w-full flex-col gap-1 rounded bg-white p-3">
-                        <div class="flex flex-col gap-2">
-                            @if ($item->prioritas === 'normal')
-                                <span
-                                    class="w-fit rounded-xl bg-gray-200 px-4 text-xs text-gray-800">{{ $item->prioritas }}</span>
-                            @elseif($item->prioritas === 'high')
-                                <span
-                                    class="w-fit rounded-xl bg-red-200 px-4 text-xs text-red-800">{{ $item->prioritas }}</span>
-                            @endif
+                    <div class="flex w-full flex-col gap-3 rounded bg-white p-3">
+                        <div>
                             <div>
                                 {{ $item->tujuan }}
                             </div>
+                            <div>
+                                <span class="text-xs">{{ $item->pekerjaan }}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-xs">{{ $item->pekerjaan }}</span>
+                        <div class="flex gap-3 text-xs">
+                            @if ($item->prioritas === 'normal')
+                                <span
+                                    class="w-fit rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->prioritas }}</span>
+                            @elseif($item->prioritas === 'high')
+                                <span class="w-fit rounded-xl bg-red-200 px-4 text-red-800">{{ $item->prioritas }}</span>
+                            @endif
+                            @switch($item->status)
+                                @case('pending')
+                                    <span class="rounded-xl bg-yellow-200 px-4 text-yellow-800">{{ $item->status }}</span>
+                                @break
+
+                                @case('rescheduled')
+                                    <span class="rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->status }}</span>
+                                @break
+
+                                @case('assigned')
+                                    <span class="rounded-xl bg-blue-200 px-4 text-blue-800">{{ $item->status }}</span>
+                                @break
+
+                                @case('confirmed')
+                                    <span class="rounded-xl bg-green-200 px-4 text-green-800">{{ $item->status }}</span>
+                                @break
+
+                                @case('closed')
+                                    <span class="rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->status }}</span>
+                                @break
+
+                                @case('canceled')
+                                    <span class="rounded-xl bg-red-200 px-4 text-red-800">{{ $item->status }}</span>
+                                @break
+                            @endswitch
                         </div>
                     </div>
                 @endforeach
@@ -58,8 +55,8 @@
     </div>
     <div class="flex flex-1 gap-3 overflow-x-auto">
         @foreach ($teams as $team)
-            <div class="flex w-80 min-w-80 flex-col gap-3 p-3">
-                <div class="flex flex-col gap-1 rounded bg-white p-3">
+            <div class="flex w-80 min-w-80 flex-col gap-3 rounded bg-gray-50 p-3">
+                <div class="flex flex-col gap-1">
                     <div class="flex items-center justify-between">
                         <div>
                             <span class="font-semibold">Team {{ $loop->iteration }}</span>
@@ -79,11 +76,9 @@
                         </div>
                     </div>
                     <div>
-                        <span>[</span>
                         @foreach ($team->members as $item)
                             <span class="text-xs">{{ $item->panggilan }}{{ $loop->last ? '' : ',' }}</span>
                         @endforeach
-                        <span>]</span>
                     </div>
                 </div>
                 <div class="flex flex-col gap-3">

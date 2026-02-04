@@ -39,13 +39,12 @@ class KanbanBoard extends Component
     {
         $pending = Task::whereNull('team_id')->get();
 
-        $today = Task::whereNull('team_id')->whereDate('tanggal', $this->selectedDate)->get();
+        $teams = Team::with(['tasks', 'members', 'assigned'])->whereDate('created_at', $this->selectedDate)->get();
 
-        $teams = Team::with(['tasks', 'members'])->whereDate('created_at', $this->selectedDate)->get();
+        return $teams;
 
         return view('livewire.kanban-board', [
             'pending' => $pending,
-            'today' => $today,
             'teams' => $teams
         ]);
     }
