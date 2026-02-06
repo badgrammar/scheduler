@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TeamMember;
+use App\Models\Team;
+use App\Models\Teknisi;
 
 class TeamController extends Controller
 {
@@ -22,11 +24,10 @@ class TeamController extends Controller
         return redirect()->back();
     }
 
-    public function delete(Request $request)
+    public function delete(Team $team, Teknisi $teknisi)
     {
+        $team->members()->detach($teknisi->id);
 
-        return TeamMember::find($request->id);
-
-        return redirect()->route('backroom.dashboard');
+        return redirect()->route('schedule.view');
     }
 }

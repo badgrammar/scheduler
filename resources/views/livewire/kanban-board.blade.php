@@ -69,10 +69,8 @@
                             <button>
                                 <span class="material-symbols-rounded text-red-900">delete</span>
                             </button>
-                            <input type="checkbox"
-                                id="member_add_{{ $team->id }}"
-                                class="modal-toggle" />
-                            <x-member-add :team="$team" />
+                            <button wire:click="openTask({{}})"></button>
+                            <livewire:member-manage :team="$team" />
                         </div>
                     </div>
                     <div>
@@ -111,3 +109,38 @@
 
     </div>
 </div>
+
+@script
+    <script>
+        initializeSortable();
+
+        Livewire.hook('morph.updated', () => {
+            initializeSortable();
+        });
+
+        function initializeSortable() {
+            const taskLists = document.querySelectorAll('.task-list');
+
+            taskLists.forEach(list => {
+                if (list.sortable) {
+                    list.sortable.destroy();
+                }
+
+                list.sortable = new Sortable(list, {
+                    animation: 150,
+                    sort: false,
+                    group: 'tasks',
+                    onEnd: function(evt) {
+                        const taskId = evt.item.dataset.taskId;
+                        const newColumnId = evt.to.dataset.columnId;
+
+                        $wire.dispatch('task-moved', {
+                            taskId: taskId,
+                            newColumnId: newColumnId
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+@endscript

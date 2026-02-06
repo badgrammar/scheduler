@@ -10,6 +10,7 @@ use Carbon\Carbon;
 class KanbanBoard extends Component
 {
     public $selectedDate;
+    public $taskOpen;
 
     protected $listeners = [
         'date-selected' => 'updateKanban'
@@ -18,6 +19,11 @@ class KanbanBoard extends Component
     public function mount()
     {
         $this->selectedDate = Carbon::now();
+    }
+
+    public function openTeam($id)
+    {
+        $this->dispatch('open-team', team: $id)->to(MemberManage::class);
     }
 
     public function updateKanban(string $date)
@@ -39,9 +45,8 @@ class KanbanBoard extends Component
     {
         $pending = Task::whereNull('team_id')->get();
 
-        $teams = Team::with(['tasks', 'members', 'assigned'])->whereDate('created_at', $this->selectedDate)->get();
+        $teams = Team::with(['tasks', 'members' ])->whereDate('created_at', $this->selectedDate)->get();
 
-        return $teams;
 
         return view('livewire.kanban-board', [
             'pending' => $pending,
