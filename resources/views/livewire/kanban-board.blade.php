@@ -4,52 +4,20 @@
             Pending Tasks
         </div>
         <div class="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto rounded">
-            <div class="flex w-full flex-col gap-3">
-                @foreach ($pending as $item)
-                    <div class="flex w-full flex-col gap-3 rounded bg-white p-3">
-                        <div>
-                            <div>
-                                {{ $item->tujuan }}
-                            </div>
-                            <div>
-                                <span class="text-xs">{{ $item->pekerjaan }}</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 text-xs">
-                            @if ($item->prioritas === 'normal')
-                                <span
-                                    class="w-fit rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->prioritas }}</span>
-                            @elseif($item->prioritas === 'high')
-                                <span class="w-fit rounded-xl bg-red-200 px-4 text-red-800">{{ $item->prioritas }}</span>
-                            @endif
-                            @switch($item->status)
-                                @case('pending')
-                                    <span class="rounded-xl bg-yellow-200 px-4 text-yellow-800">{{ $item->status }}</span>
-                                @break
-
-                                @case('rescheduled')
-                                    <span class="rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->status }}</span>
-                                @break
-
-                                @case('assigned')
-                                    <span class="rounded-xl bg-blue-200 px-4 text-blue-800">{{ $item->status }}</span>
-                                @break
-
-                                @case('confirmed')
-                                    <span class="rounded-xl bg-green-200 px-4 text-green-800">{{ $item->status }}</span>
-                                @break
-
-                                @case('closed')
-                                    <span class="rounded-xl bg-gray-200 px-4 text-gray-800">{{ $item->status }}</span>
-                                @break
-
-                                @case('canceled')
-                                    <span class="rounded-xl bg-red-200 px-4 text-red-800">{{ $item->status }}</span>
-                                @break
-                            @endswitch
-                        </div>
-                    </div>
+            <div class="task-list flex h-full min-h-[400px] w-full flex-col gap-3">
+                @foreach ($pending as $task)
+                    <x-kanban-card :task="$task"
+                        wire:key="{{ $task->id }}"
+                        data-task-id="{{ $task->id }}" />
+                    <input type="checkbox"
+                        id="task_assign_{{ $task->id }}"
+                        class="modal-toggle">
+                    <x-task-assign :task=$task
+                        :date=$selectedDate />
                 @endforeach
+                <div class="flex-1 bg-amber-100">
+
+                </div>
             </div>
         </div>
     </div>
@@ -64,13 +32,15 @@
                         <div class="flex items-center">
                             <label for="member_add_{{ $team->id }}"
                                 class="cursor-pointer rounded px-3 py-1 text-xs underline">
-                                <span class="material-symbols-rounded">person_add</span>
+                                <span class="material-symbols-rounded">group</span>
                             </label>
+                            <input type="checkbox"
+                                id="member_add_{{ $team->id }}"
+                                class="modal-toggle">
+                            <x-member-add :team="$team" />
                             <button>
                                 <span class="material-symbols-rounded text-red-900">delete</span>
                             </button>
-                            <button wire:click="openTask({{}})"></button>
-                            <livewire:member-manage :team="$team" />
                         </div>
                     </div>
                     <div>
@@ -79,26 +49,20 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="flex flex-col gap-3">
+                <div class="task-list flex h-full min-h-[400px] flex-col gap-3 bg-red-100"
+                    data-team-id={{ $team->id }}>
                     @foreach ($team->tasks as $task)
-                        <div class="flex flex-col gap-1 rounded border border-slate-200 bg-white p-3">
-                            <div>
-                                <div>
-                                    {{ $task->tujuan }}
-                                </div>
-                                <span class="text-xs">{{ $task->pekerjaan }}</span>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                @if ($task->prioritas === 'normal')
-                                    <span
-                                        class="rounded-xl bg-gray-200 px-4 text-gray-800">{{ $task->prioritas }}</span>
-                                @elseif($task->prioritas === 'high')
-                                    <span class="rounded-xl bg-red-200 px-4 text-red-800">{{ $task->prioritas }}</span>
-                                @endif
-
-                            </div>
-                        </div>
+                        <x-kanban-card :task="$task"
+                            wire:key="{{ $task->id }}"
+                            data-task-id="{{ $task->id }}" />
+                        <input type="checkbox"
+                            id="task_reschedule_{{ $task->id }}"
+                            class="modal-toggle">
+                        <x-task-reschedule :task=$task />
                     @endforeach
+                    <div class="bg-amber-99 flex-1">
+
+                    </div>
                 </div>
             </div>
         @endforeach
@@ -132,12 +96,25 @@
                     group: 'tasks',
                     onEnd: function(evt) {
                         const taskId = evt.item.dataset.taskId;
-                        const newColumnId = evt.to.dataset.columnId;
+                        const newTeamId = evt.to.dataset.teamId;
+                        const reschedule = document.getElementById(`task_reschedule_${taskId}`);
+                        const assign = document.getElementById(`task_assign_${taskId}`);
 
-                        $wire.dispatch('task-moved', {
-                            taskId: taskId,
-                            newColumnId: newColumnId
-                        });
+                        if (!newTeamId) {
+                            if (!reschedule) {
+                                return;
+                            }
+
+                            reschedule.checked = true;
+                            return;
+                        } else {
+                            if (!assign) {
+                                return;
+                            }
+                            assign.checked = true;
+                            return;
+                        }
+
                     }
                 });
             });

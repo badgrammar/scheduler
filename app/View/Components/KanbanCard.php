@@ -6,16 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\Task;
-use Carbon\Carbon;
 
-class TaskAssign extends Component
+class KanbanCard extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public Task $task,
-        public Carbon $date
+        public Task $task
     )
     {
         //
@@ -26,6 +24,6 @@ class TaskAssign extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.task-assign');
+        return view('components.kanban-card');
     }
 }

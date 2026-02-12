@@ -59,9 +59,7 @@ class TasksController extends Controller
         $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
 
         Task::find($data['task_id'])->update([
-            'task_id' => $data['task_id'],
             'team_id' => $request->team_id,
-            'tanggal' => $request->tanggal,
             'jam' => $request->jam,
             'status' => 'assigned'
         ]);
@@ -82,15 +80,16 @@ class TasksController extends Controller
             'keterangan' => 'required'
         ]);
 
-        Task::find($request->id)
-            ->update([
-                'tanggal' => $validation['tanggal']
-            ]);
+        Task::findOrfail($request->id)->update([
+            'status' => 'rescheduled',
+            'tanggal' => null,
+            'team_id' => null
+        ]);
 
         Log::create([
             'task_id' => $request->id,
             'user_id' => Auth::id(),
-            'comment' => 'Rescheduled to '.Carbon::parse($validation['tanggal'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY').' dikarenakan '.$validation['keterangan']
+            'comment' => 'Rescheduled to '.Carbon::parse($validation['tanggal'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY').' '.$validation['keterangan']
         ]);
 
         return redirect()->back();
