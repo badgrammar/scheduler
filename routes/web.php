@@ -58,6 +58,8 @@ Route::group(['middleware' => 'auth'], function (){
     Route::prefix('team')
         ->as('team.')
         ->group(function () {
+            Route::post('test', [TeamController::class, 'test'])->name('test');
+            Route::delete('delete/{id}', [TeamController::class, 'deleteTeam'])->name('delete');
             Route::post('member/store', [TeamController::class, 'store'])->name('member.store');
             Route::delete('member/{team}/{teknisi}', [TeamController::class, 'delete'])->name('member.delete');
         });

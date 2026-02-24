@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\Task;
+use App\Models\Team;
 
 class TaskDetails extends Component
 {
@@ -14,6 +15,7 @@ class TaskDetails extends Component
      */
     public function __construct(
         public Task $task,
+        public Team $team
     )
     {
     }

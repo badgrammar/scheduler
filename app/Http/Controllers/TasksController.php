@@ -50,24 +50,25 @@ class TasksController extends Controller
     public function assign(Request $request)
     {
         $data = $request->validate([
-            'task_id' => 'required',
             'jam' => 'required'
         ]);
 
         $sanitized = str_replace('.', ':', $data['jam']);
 
         $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
+        $tanggal = Carbon::parse($request->tanggal)->format('Y-m-d');
 
-        Task::find($data['task_id'])->update([
+        Task::find($request->task_id)->update([
             'team_id' => $request->team_id,
-            'jam' => $request->jam,
+            'tanggal' => $tanggal,
+            'jam' => $jam,
             'status' => 'assigned'
         ]);
 
         Log::create([
-            'task_id' => $data['task_id'],
+            'task_id' => $request->task_id,
             'user_id' => Auth::id(),
-            'comment' => 'Dijadwalkan pada '.Carbon::parse($request['date'])->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
+            'comment' => 'Dijadwalkan pada '.Carbon::parse($request->date)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
         ]);
 
         return redirect()->back();

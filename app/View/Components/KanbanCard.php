@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\Task;
+use App\Models\Team;
 
 class KanbanCard extends Component
 {
@@ -13,7 +14,8 @@ class KanbanCard extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Task $task
+        public Task $task,
+        public Team $team
     )
     {
         //

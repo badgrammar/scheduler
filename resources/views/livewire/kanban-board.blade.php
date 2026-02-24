@@ -13,10 +13,9 @@
                         id="task_assign_{{ $task->id }}"
                         class="modal-toggle">
                     <x-task-assign :task=$task
-                        :date=$selectedDate />
+                        :tanggal=$selectedDate />
                 @endforeach
-                <div class="flex-1 bg-amber-100">
-
+                <div class="flex-1">
                 </div>
             </div>
         </div>
@@ -38,9 +37,17 @@
                                 id="member_add_{{ $team->id }}"
                                 class="modal-toggle">
                             <x-member-add :team="$team" />
-                            <button>
-                                <span class="material-symbols-rounded text-red-900">delete</span>
-                            </button>
+                            <form action="{{ route('team.delete', ['id' => $team->id]) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden"
+                                    name="team_id"
+                                    value="{{ $team->id }}">
+                                <button>
+                                    <span class="material-symbols-rounded text-red-900">delete</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div>
@@ -49,19 +56,18 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="task-list flex h-full min-h-[400px] flex-col gap-3 bg-red-100"
+                <div class="task-list flex h-full min-h-[400px] flex-col gap-3"
                     data-team-id={{ $team->id }}>
                     @foreach ($team->tasks as $task)
+                        <span class="font-semibold">@jam($task->jam)</span>
                         <x-kanban-card :task="$task"
-                            wire:key="{{ $task->id }}"
-                            data-task-id="{{ $task->id }}" />
+                            :team="$team" />
                         <input type="checkbox"
                             id="task_reschedule_{{ $task->id }}"
                             class="modal-toggle">
                         <x-task-reschedule :task=$task />
                     @endforeach
-                    <div class="bg-amber-99 flex-1">
-
+                    <div class="flex-1">
                     </div>
                 </div>
             </div>
@@ -112,6 +118,8 @@
                                 return;
                             }
                             assign.checked = true;
+                            document.getElementById('team_id').value = newTeamId;
+                            console.log(document.getElementById('team_id').value);
                             return;
                         }
 

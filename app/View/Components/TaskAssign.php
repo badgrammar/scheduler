@@ -15,7 +15,7 @@ class TaskAssign extends Component
      */
     public function __construct(
         public Task $task,
-        public Carbon $date
+        public Carbon $tanggal,
     )
     {
         //

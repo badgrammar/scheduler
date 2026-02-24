@@ -39,7 +39,10 @@ class KanbanBoard extends Component
     {
         $pending = Task::whereNull('team_id')->orderBy('updated_at', 'desc')->get();
 
-        $teams = Team::with(['tasks', 'members' ])->whereDate('created_at', $this->selectedDate)->get();
+        $teams = Team::with(['tasks' => function ($query){
+            $query->orderBy('jam');
+        }, 'members' ])
+            ->whereDate('created_at', $this->selectedDate)->get();
 
 
         return view('livewire.kanban-board', [
