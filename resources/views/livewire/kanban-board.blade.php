@@ -79,13 +79,34 @@
         class="modal-toggle">
     <x-task-assign />
 </div>
+<script>
+    var taskData = null;
 
-@script
-    <script>
-        let taskData = {
+    function closeAssignModal() {
 
+        if (!taskData) {
+            console.log('task data empty');
+            return;
         }
 
+        const parent = taskData.fromList;
+        const item = taskData.item;
+        const next = taskData.nextElement;
+
+        if (next && next.parentNode === parent) {
+            parent.insertBefore(item, next);
+        } else {
+            console.log(parent);
+            parent.appendChild(item);
+        }
+
+        taskData = null;
+
+        document.getElementById('task_assign').checked = false;
+    }
+</script>
+@script
+    <script>
         initializeSortable();
 
         Livewire.hook('morph.updated', () => {
@@ -104,28 +125,28 @@
                     animation: 150,
                     sort: false,
                     group: 'tasks',
+                    onStart: function(evt) {
+                        taskData = {
+                            item: evt.item,
+                            fromList: evt.from,
+                            nextElement: evt.item.nextElementSibling
+                        };
+
+                        console.log(taskData);
+                    },
                     onEnd: function(evt) {
                         const fromType = evt.from.dataset.columnType;
                         const toType = evt.to.dataset.columnType;
                         const taskId = evt.item.dataset.taskId;
-                        const jam = document.getElementById('jam').value;
 
                         if (fromType === 'pending' && toType === 'team') {
                             const teamId = evt.to.dataset.teamId;
-
-                            console.log([$wire.selectedDate, taskId]);
 
                             openAssignModal(taskId, teamId, $wire.selectedDate);
                         } else if (fromType === 'team' && toType === 'team') {
                             const newTeamId = evt.to.dataset.teamId;
 
-                            console.log([$wire.selectedDate, taskId]);
-
-                            document.getElementById('teamId').value = newTeamId;
-                            document.getElementById('taskId').value = taskId;
-                            document.getElementById('tanggal').value = $wire.selectedDate;
-
-                            openAssignModal();
+                            openAssignModal(taskId, newTeamId, $wire.selectedDate);
                         } else if (fromType === 'team' && toType === 'pending') {
 
                             openRescheduleModal();
@@ -144,12 +165,9 @@
             Alpine.$data(modalAssign).taskId = taskId;
             Alpine.$data(modalAssign).teamId = teamId;
             Alpine.$data(modalAssign).tanggal = tanggal;
-
         }
 
-        function closeAssignModal() {
-            document.getElementById('task_assign').checked = false;
-        }
+        function closeAssignModal() {}
 
         function openRescheduleModal() {
             document.getElementById('task_reschedule').checked = true;

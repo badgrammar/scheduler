@@ -38,7 +38,7 @@ class KanbanBoard extends Component
     }
 
    public function assign($taskId, $teamId, $tanggal, $jam)
-   {
+    {
         $sanitized = str_replace('.', ':', $jam);
 
         $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
