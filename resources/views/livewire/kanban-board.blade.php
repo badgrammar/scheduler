@@ -82,6 +82,10 @@
 
 @script
     <script>
+        let taskData = {
+
+        }
+
         initializeSortable();
 
         Livewire.hook('morph.updated', () => {
@@ -111,11 +115,7 @@
 
                             console.log([$wire.selectedDate, taskId]);
 
-                            document.getElementById('teamId').value = teamId;
-                            document.getElementById('taskId').value = taskId;
-                            document.getElementById('tanggal').value = $wire.selectedDate;
-
-                            openAssignModal();
+                            openAssignModal(taskId, teamId, $wire.selectedDate);
                         } else if (fromType === 'team' && toType === 'team') {
                             const newTeamId = evt.to.dataset.teamId;
 
@@ -136,9 +136,15 @@
             });
         }
 
-        function openAssignModal() {
+        function openAssignModal(taskId, teamId, tanggal) {
             document.getElementById('task_assign').checked = true;
             document.getElementById('jam').focus();
+            modalAssign = document.getElementById('task-assign');
+
+            Alpine.$data(modalAssign).taskId = taskId;
+            Alpine.$data(modalAssign).teamId = teamId;
+            Alpine.$data(modalAssign).tanggal = tanggal;
+
         }
 
         function closeAssignModal() {
