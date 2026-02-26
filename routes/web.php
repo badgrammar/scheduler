@@ -9,6 +9,7 @@ use App\Http\Controllers\LogsController;
 use App\Http\Controllers\TeknisisController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeamController;
+use App\Livewire\Schedule;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -52,7 +53,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::prefix('schedule')
         ->as('schedule.')
         ->group(function () {
-            Route::get('view', [ScheduleController::class, 'index'])->name('view');
+            Route::get('view', Schedule::class)->name('view');
         });
 
     Route::prefix('team')

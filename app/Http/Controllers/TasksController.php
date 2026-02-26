@@ -58,20 +58,20 @@ class TasksController extends Controller
         $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
         $tanggal = Carbon::parse($request->tanggal)->format('Y-m-d');
 
-        Task::find($request->task_id)->update([
-            'team_id' => $request->team_id,
+        Task::find($request->taskId)->update([
+            'team_id' => $request->teamId,
             'tanggal' => $tanggal,
             'jam' => $jam,
             'status' => 'assigned'
         ]);
 
         Log::create([
-            'task_id' => $request->task_id,
+            'task_id' => $request->taskId,
             'user_id' => Auth::id(),
             'comment' => 'Dijadwalkan pada '.Carbon::parse($request->date)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
         ]);
 
-        return redirect()->back();
+        return redirect()->route('schedule.view', ['selectedDate' => $tanggal]);
     }
 
     public function reschedule(Request $request)

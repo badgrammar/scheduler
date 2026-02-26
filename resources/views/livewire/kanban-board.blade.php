@@ -4,16 +4,12 @@
             Pending Tasks
         </div>
         <div class="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto rounded">
-            <div class="task-list flex h-full min-h-[400px] w-full flex-col gap-3">
+            <div class="task-list flex h-full min-h-[400px] w-full flex-col gap-3"
+                data-column-type="pending">
                 @foreach ($pending as $task)
                     <x-kanban-card :task="$task"
                         wire:key="{{ $task->id }}"
                         data-task-id="{{ $task->id }}" />
-                    <input type="checkbox"
-                        id="task_assign_{{ $task->id }}"
-                        class="modal-toggle">
-                    <x-task-assign :task=$task
-                        :tanggal=$selectedDate />
                 @endforeach
                 <div class="flex-1">
                 </div>
@@ -57,15 +53,12 @@
                     </div>
                 </div>
                 <div class="task-list flex h-full min-h-[400px] flex-col gap-3"
-                    data-team-id={{ $team->id }}>
+                    data-column-type="team"
+                    data-team-id="{{ $team->id }}">
                     @foreach ($team->tasks as $task)
                         <span class="font-semibold">@jam($task->jam)</span>
                         <x-kanban-card :task="$task"
                             :team="$team" />
-                        <input type="checkbox"
-                            id="task_reschedule_{{ $task->id }}"
-                            class="modal-toggle">
-                        <x-task-reschedule :task=$task />
                     @endforeach
                     <div class="flex-1">
                     </div>
@@ -76,8 +69,15 @@
             <button wire:click="createTeam"
                 class="w-64 rounded bg-slate-800 py-2 font-semibold text-white">Add Team</button>
         </div>
-
     </div>
+    <input type="checkbox"
+        id="task_reschedule"
+        class="modal-toggle">
+    <x-task-reschedule :task=$task />
+    <input type="checkbox"
+        id="task_assign"
+        class="modal-toggle">
+    <x-task-assign />
 </div>
 
 @script
@@ -101,31 +101,56 @@
                     sort: false,
                     group: 'tasks',
                     onEnd: function(evt) {
+                        const fromType = evt.from.dataset.columnType;
+                        const toType = evt.to.dataset.columnType;
                         const taskId = evt.item.dataset.taskId;
-                        const newTeamId = evt.to.dataset.teamId;
-                        const reschedule = document.getElementById(`task_reschedule_${taskId}`);
-                        const assign = document.getElementById(`task_assign_${taskId}`);
+                        const jam = document.getElementById('jam').value;
 
-                        if (!newTeamId) {
-                            if (!reschedule) {
-                                return;
-                            }
+                        if (fromType === 'pending' && toType === 'team') {
+                            const teamId = evt.to.dataset.teamId;
 
-                            reschedule.checked = true;
-                            return;
-                        } else {
-                            if (!assign) {
-                                return;
-                            }
-                            assign.checked = true;
-                            document.getElementById('team_id').value = newTeamId;
-                            console.log(document.getElementById('team_id').value);
-                            return;
+                            console.log([$wire.selectedDate, taskId]);
+
+                            document.getElementById('teamId').value = teamId;
+                            document.getElementById('taskId').value = taskId;
+                            document.getElementById('tanggal').value = $wire.selectedDate;
+
+                            openAssignModal();
+                        } else if (fromType === 'team' && toType === 'team') {
+                            const newTeamId = evt.to.dataset.teamId;
+
+                            console.log([$wire.selectedDate, taskId]);
+
+                            document.getElementById('teamId').value = newTeamId;
+                            document.getElementById('taskId').value = taskId;
+                            document.getElementById('tanggal').value = $wire.selectedDate;
+
+                            openAssignModal();
+                        } else if (fromType === 'team' && toType === 'pending') {
+
+                            openRescheduleModal();
                         }
 
                     }
                 });
             });
+        }
+
+        function openAssignModal() {
+            document.getElementById('task_assign').checked = true;
+            document.getElementById('jam').focus();
+        }
+
+        function closeAssignModal() {
+            document.getElementById('task_assign').checked = false;
+        }
+
+        function openRescheduleModal() {
+            document.getElementById('task_reschedule').checked = true;
+        }
+
+        function closeRescheduleModal() {
+            document.getElementById('task_reschedule').checked = false;
         }
     </script>
 @endscript
