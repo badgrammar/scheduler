@@ -7,10 +7,16 @@
             <div class="task-list flex h-full min-h-[400px] w-full flex-col gap-3"
                 data-column-type="pending">
                 @foreach ($pending as $task)
+                @endforeach
+                @forelse ($pending as $task)
                     <x-kanban-card :task="$task"
                         wire:key="{{ $task->id }}"
                         data-task-id="{{ $task->id }}" />
-                @endforeach
+                @empty
+                    <div class="w-full rounded bg-white p-3">
+                        <span>No pending tasks</span>
+                    </div>
+                @endforelse
                 <div class="flex-1">
                 </div>
             </div>
