@@ -1,7 +1,7 @@
 <div class="flex w-full cursor-pointer flex-col gap-3 rounded bg-white p-3"
     wire:key="{{ $task->id }}"
-    data-task-id="{{ $task->id }}"
-    onclick="openTaskDetail({{ $task->id }})">
+    onclick="openTaskDetail({{ $task->id }})"
+    {{ $attributes }}>
     <div>
         <div>
             {{ $task->tujuan }}

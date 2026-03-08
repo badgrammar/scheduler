@@ -2,7 +2,7 @@
     {{ $attributes }}
     role="dialog"
     id="task-assign"
-    x-data="{ taskId: '', teamId: '', tanggal: '', jam: '' }">
+    x-data="{ taskId: '', teamId: '', tanggal: '', jam: '', tujuan: '', pekerjaan: '' }">
     <div class="modal-box flex flex-col gap-3"
         style="width:240px;">
         <div>

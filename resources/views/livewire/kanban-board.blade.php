@@ -6,12 +6,12 @@
         <div class="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto rounded">
             <div class="task-list flex h-full min-h-[400px] w-full flex-col gap-3"
                 data-column-type="pending">
-                @foreach ($pending as $task)
-                @endforeach
                 @forelse ($pending as $task)
                     <x-kanban-card :task="$task"
                         wire:key="{{ $task->id }}"
-                        data-task-id="{{ $task->id }}" />
+                        data-task-id="{{ $task->id }}"
+                        data-task-tujuan="{{ $task->tujuan }}"
+                        data-task-pekerjaan="{{ $task->pekerjaan }}" />
                 @empty
                     <div class="w-full rounded bg-white p-3">
                         <span>No pending tasks</span>
@@ -64,7 +64,10 @@
                     @foreach ($team->tasks as $task)
                         <span class="font-semibold">@jam($task->jam)</span>
                         <x-kanban-card :task="$task"
-                            :team="$team" />
+                            :team="$team"
+                            data-task-id="{{ $task->id }}"
+                            data-task-tujuan="{{ $task->tujuan }}"
+                            data-task-pekerjaan="{{ $task->pekerjaan }}" />
                     @endforeach
                     <div class="flex-1">
                     </div>
@@ -79,7 +82,7 @@
     <input type="checkbox"
         id="task_reschedule"
         class="modal-toggle">
-    <x-task-reschedule :task=$task />
+    <x-task-reschedule />
     <input type="checkbox"
         id="task_assign"
         class="modal-toggle">
@@ -89,7 +92,6 @@
     var taskData = null;
 
     function closeAssignModal() {
-
         if (!taskData) {
             console.log('task data empty');
             return;
@@ -109,6 +111,28 @@
         taskData = null;
 
         document.getElementById('task_assign').checked = false;
+    }
+
+    function closeRescheduleModal() {
+        if (!taskData) {
+            console.log('task data empty');
+            return;
+        }
+
+        const parent = taskData.fromList;
+        const item = taskData.item;
+        const next = taskData.nextElement;
+
+        if (next && next.parentNode === parent) {
+            parent.insertBefore(item, next);
+        } else {
+            console.log(parent);
+            parent.appendChild(item);
+        }
+
+        taskData = null;
+
+        document.getElementById('task_reschedule').checked = false;
     }
 </script>
 @script
@@ -137,13 +161,13 @@
                             fromList: evt.from,
                             nextElement: evt.item.nextElementSibling
                         };
-
-                        console.log(taskData);
                     },
                     onEnd: function(evt) {
                         const fromType = evt.from.dataset.columnType;
                         const toType = evt.to.dataset.columnType;
                         const taskId = evt.item.dataset.taskId;
+                        const tujuan = evt.item.dataset.taskTujuan;
+                        const pekerjaan = evt.item.dataset.taskPekerjaan;
 
                         if (fromType === 'pending' && toType === 'team') {
                             const teamId = evt.to.dataset.teamId;
@@ -154,8 +178,7 @@
 
                             openAssignModal(taskId, newTeamId, $wire.selectedDate);
                         } else if (fromType === 'team' && toType === 'pending') {
-
-                            openRescheduleModal();
+                            openRescheduleModal(taskId, tujuan, pekerjaan);
                         }
 
                     }
@@ -164,23 +187,25 @@
         }
 
         function openAssignModal(taskId, teamId, tanggal) {
-            document.getElementById('task_assign').checked = true;
-            document.getElementById('jam').focus();
             modalAssign = document.getElementById('task-assign');
 
             Alpine.$data(modalAssign).taskId = taskId;
             Alpine.$data(modalAssign).teamId = teamId;
             Alpine.$data(modalAssign).tanggal = tanggal;
+
+            document.getElementById('task_assign').checked = true;
+            document.getElementById('jam').focus();
         }
 
-        function closeAssignModal() {}
+        function openRescheduleModal(taskId, tujuan, pekerjaan) {
+            modalReschedule = document.getElementById('task-reschedule');
 
-        function openRescheduleModal() {
+            Alpine.$data(modalReschedule).taskId = taskId;
+            Alpine.$data(modalReschedule).tujuan = tujuan;
+            Alpine.$data(modalReschedule).pekerjaan = pekerjaan;
+
             document.getElementById('task_reschedule').checked = true;
-        }
-
-        function closeRescheduleModal() {
-            document.getElementById('task_reschedule').checked = false;
+            document.getElementById('tanggal').focus();
         }
     </script>
 @endscript

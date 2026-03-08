@@ -38,7 +38,7 @@ class KanbanBoard extends Component
     }
 
    public function assign($taskId, $teamId, $tanggal, $jam)
-    {
+   {
         $sanitized = str_replace('.', ':', $jam);
 
         $jam = Carbon::parse($sanitized)->isoFormat('HH:mm:ss');
@@ -54,11 +54,26 @@ class KanbanBoard extends Component
         Log::create([
             'task_id' => $taskId,
             'user_id' => Auth::id(),
-            'comment' => 'Dijadwalkan pada '.Carbon::parse($tanggal)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
+            'comment' => '[Assigned] '.Carbon::parse($tanggal)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY'). ' jam '.$jam
         ]);
    }
 
-    public function render()
+   public function reschedule($taskId, $tanggal,?string $keterangan)
+   {
+        Task::findOrfail($taskId)->update([
+            'status' => 'rescheduled',
+            'tanggal' => null,
+            'team_id' => null
+        ]);
+
+        Log::create([
+            'task_id' => $taskId,
+            'user_id' => Auth::id(),
+            'comment' => '[Rescheduled] '.Carbon::parse($tanggal)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY').' '.$keterangan
+        ]);
+   }
+
+   public function render()
    {
         $pending = Task::whereNull('team_id')->orderBy('updated_at', 'desc')->get();
 
