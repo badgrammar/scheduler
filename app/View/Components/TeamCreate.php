@@ -5,19 +5,21 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\Task;
 use App\Models\Team;
+use App\Models\Teknisi;
+use Carbon\Carbon;
 
-class TaskDetails extends Component
+class TeamCreate extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public Task $task,
-        public Team $team
+        public Team $team,
+        public Carbon $date
     )
     {
+        //
     }
 
     /**
@@ -25,6 +27,10 @@ class TaskDetails extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.task-details');
+        $teknisis = Teknisi::all();
+
+        return view('components.team-create', [
+            'teknisis' => $teknisis
+        ]);
     }
 }

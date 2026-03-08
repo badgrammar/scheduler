@@ -1,44 +1,30 @@
-<div class="modal" role="dialog">
-    <div
-        class="modal-box flex flex-col gap-3"
-        style="width: 1024px; max-width: 1024px"
-    >
-        <div class="font-semibold">Assign Task</div>
-        <form
-            action="{{ route('tasks.assign') }}"
-            method="POST"
-            class="flex flex-col gap-3"
-        >
-            @csrf
-            <select name="task_id">
-                @foreach($tasks as $task)
-                <option value="{{$task->id}}">
-                    {{ $task->tujuan }} | {{ $task->pekerjaan }}
-                </option>
-                @endforeach
-            </select>
-            <div class="flex gap-3 items-center">
-                <div>Jam visit :</div>
-                <input
-                    class="rounded border border-gray-200 px-3 py-1"
-                    type="text"
-                    name="jam"
-                />
-            </div>
-            <input type="hidden" name="team_id" value="{{$team->id}}" />
-            <input type="hidden" name="tanggal" value="{{ $date }}" />
-            <div class="w-full flex justify-end gap-3">
-                <label
-                    for="assign_task_{{$team->id}}"
-                    class="rounded cursor-pointer bg-gray-200 text-gray-800 px-4 py-2 text-xs"
-                    >Batal</label
-                >
-                <button
-                    class="cursor-pointer rounded bg-slate-800 text-white text-xs px-4 py-2"
-                >
-                    Assign
-                </button>
-            </div>
-        </form>
+<div class="modal"
+    {{ $attributes }}
+    role="dialog"
+    id="task-assign"
+    x-data="{ taskId: '', teamId: '', tanggal: '', jam: '', tujuan: '', pekerjaan: '' }">
+    <div class="modal-box flex flex-col gap-3"
+        style="width:240px;">
+        <div>
+            <span class="font-semibold">Jam penjadwalan</span>
+            <input type="text"
+                class="mt-3 w-full rounded border border-gray-200 px-3 py-2"
+                name="jam"
+                id="jam"
+                x-model="jam" />
+        </div>
+        <div class="flex justify-end gap-3">
+            <button type="submit"
+                class="rounded bg-gray-200 px-6 py-2 text-gray-800"
+                onclick="closeAssignModal()">Cancel</button>
+            <button class="rounded bg-slate-800 px-6 py-2 text-white"
+                x-on:click="$wire.assign(taskId,teamId,tanggal,jam)"
+                onclick="doneAssignModal()">Assign</button>
+        </div>
     </div>
 </div>
+<script>
+    function doneAssignModal() {
+        document.getElementById('task_assign').checked = false;
+    }
+</script>

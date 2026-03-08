@@ -3,12 +3,15 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Carbon\Carbon;
+use App\Models\Team;
+use App\Models\Task;
 
-class WeeklyPicker extends Component
+class Schedule extends Component
 {
-    public $date;
     public $selectedDate;
+    public $date;
     public $week = [];
 
     public function mount()
@@ -18,6 +21,7 @@ class WeeklyPicker extends Component
         $this->selectedDate = $this->date->format('d-m-Y');
 
         $this->week($this->date);
+
     }
 
     public function week(Carbon $date)
@@ -44,12 +48,31 @@ class WeeklyPicker extends Component
     public function selectDate(string $date)
     {
         $this->selectedDate = $date;
-
-        $this->dispatch('date-selected', date: $this->selectedDate)->to(KanbanBoard::class);
     }
 
+    public function createTeam()
+    {
+        $date = Carbon::parse($this->selectedDate);
+
+        Team::create([
+            'created_at' => $date
+        ]);
+
+    }
+
+    #[Layout('components.layouts.app', ['title' => 'Schedule'])]
     public function render()
     {
-        return view('livewire.weekly-picker');
+       $pending = Task::whereNull('team_id')->orderBy('updated_at', 'desc')->get();
+
+       $teams = Team::with(['tasks' => function ($query){
+            $query->orderBy('jam');
+       }, 'members' ])
+            ->whereDate('created_at', Carbon::parse($this->selectedDate))->get();
+
+       return view('livewire.schedule', [
+            'pending' => $pending,
+            'teams' => $teams
+       ]);
     }
 }

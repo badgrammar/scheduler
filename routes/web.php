@@ -9,6 +9,7 @@ use App\Http\Controllers\LogsController;
 use App\Http\Controllers\TeknisisController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeamController;
+use App\Livewire\Schedule;
 
 Route::group(['middleware' => 'auth'], function (){
     Route::prefix('backroom')
@@ -31,7 +32,7 @@ Route::group(['middleware' => 'auth'], function (){
             Route::post('store', [TasksController::class, 'store'])->name('store');
             Route::get('delete/{id}', [TasksController::class, 'delete'])->name('delete');
             Route::post('update', [TasksController::class, 'update'])->name('update');
-            Route::post('assign', [TasksController::class, 'assign'])->name('assign');
+            Route::patch('assign', [TasksController::class, 'assign'])->name('assign');
             Route::post('reschedule', [TasksController::class, 'reschedule'])->name('reschedule');
         });
 
@@ -52,13 +53,16 @@ Route::group(['middleware' => 'auth'], function (){
     Route::prefix('schedule')
         ->as('schedule.')
         ->group(function () {
-            Route::get('view', [ScheduleController::class, 'index'])->name('view');
+            Route::get('view', Schedule::class)->name('view');
         });
 
     Route::prefix('team')
         ->as('team.')
         ->group(function () {
+            Route::post('test', [TeamController::class, 'test'])->name('test');
+            Route::delete('delete/{id}', [TeamController::class, 'deleteTeam'])->name('delete');
             Route::post('member/store', [TeamController::class, 'store'])->name('member.store');
+            Route::delete('member/{team}/{teknisi}', [TeamController::class, 'delete'])->name('member.delete');
         });
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('teknisis', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nama');
+            $table->string('panggilan');
             $table->string('divisi');
             $table->timestamps();
         });

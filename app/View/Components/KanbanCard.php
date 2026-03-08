@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use App\Models\Task;
 use App\Models\Team;
 
-class TaskDetails extends Component
+class KanbanCard extends Component
 {
     /**
      * Create a new component instance.
@@ -18,6 +18,7 @@ class TaskDetails extends Component
         public Team $team
     )
     {
+        //
     }
 
     /**
@@ -25,6 +26,6 @@ class TaskDetails extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.task-details');
+        return view('components.kanban-card');
     }
 }
